@@ -56,12 +56,12 @@ function App() {
     query({ inputs: `${inputText}` }).then((response) => {
       const imageUrl = URL.createObjectURL(response);
       setImageData((prev) => [
-        ...prev,
         {
           id: nanoid(),
           src: imageUrl,
           alt: inputText,
         },
+        ...prev,
       ]);
       setLoading(false);
     });

@@ -1,18 +1,209 @@
-@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@200;300;400;500;600;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@200;300;400;500;600;700&display=swap");
 
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
+a {
+  text-decoration: none;
+  color: #fff;
+}
 
 body {
   width: 100%;
-  font-family: 'IBM Plex Sans', sans-serif;
+  font-family: "IBM Plex Sans", sans-serif;
 }
 
 #root {
   position: relative;
   width: 100%;
   min-height: 100vh;
+}
+
+.app {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem 1rem;
+  text-align: center;
+  background-color: rgb(40, 40, 40);
+  color: #fff;
+}
+
+.app h1 {
+  font-size: 2.4rem;
+  text-decoration: dashed underline;
+  margin-bottom: 2rem;
+}
+
+.inputs {
+  width: 100%;
+  max-width: 500px;
+  margin-bottom: 1.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+.inputs input {
+  width: 70%;
+  min-width: 250px;
+  padding: 0.6rem 1rem;
+  font-size: 1.2rem;
+  text-transform: capitalize;
+  border-radius: 10px;
+  outline: none;
+  background: transparent;
+  color: #fff;
+  border: 1px dashed #fff;
+}
+
+.inputs input::placeholder {
+  font-size: 1rem;
+}
+
+.generate-btn {
+  background-color: #ffffff;
+  border: 1px solid #222222;
+  border-radius: 8px;
+  box-sizing: border-box;
+  color: #222222;
+  cursor: pointer;
+  display: inline-block;
+  font-family: Circular, -apple-system, BlinkMacSystemFont, Roboto,
+    "Helvetica Neue", sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 20px;
+  margin: 0;
+  outline: none;
+  padding: 13px 23px;
+  position: relative;
+  text-align: center;
+  text-decoration: none;
+  touch-action: manipulation;
+  transition: box-shadow 0.2s, -ms-transform 0.1s, -webkit-transform 0.1s,
+    transform 0.1s;
+  user-select: none;
+  -webkit-user-select: none;
+  width: auto;
+}
+
+.generate-btn:focus-visible {
+  box-shadow: #222222 0 0 0 2px, rgba(255, 255, 255, 0.8) 0 0 0 4px;
+  transition: box-shadow 0.2s;
+}
+
+.generate-btn:active {
+  background-color: #f7f7f7;
+  border-color: #000000;
+  transform: scale(0.96);
+}
+
+.generate-btn:disabled {
+  border-color: #dddddd;
+  color: #dddddd;
+  cursor: not-allowed;
+  opacity: 1;
+}
+
+.image-container {
+  flex: 1;
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+}
+
+.image {
+  width: 250px;
+  border-radius: 8px;
+  overflow: hidden;
+}
+.image a {
+  cursor: zoom-in;
+  display: flex;
+  width: 100%;
+  height: 100%;
+}
+
+.image img {
+  width: 100%;
+  transition: 0.3s ease;
+}
+
+.image img:hover {
+  transform: scale(1.1);
+}
+
+.details {
+  width: 100%;
+  display: flex;
+  background-color: #fff;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem;
+}
+
+.details p {
+  flex: 0 0 70%;
+  color: #000;
+  text-align: left;
+  font-size: 1.1rem;
+  font-weight: 500;
+  text-transform: capitalize;
+}
+
+.btn-container {
+  flex: 0 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-container a {
+  color: #000;
+  cursor: pointer;
+  font-size: 1.1rem;
+  transition: 0.3s ease;
+}
+
+.btn-container a:hover {
+  transform: scale(1.2);
+}
+
+.btn-container button {
+  background: transparent;
+  border: none;
+  outline: none;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.btn-container button:hover {
+  transform: scale(1.2);
+}
+
+.loader {
+  width: 100%;
+  max-width: 400px;
+  height: 300px;
+}
+
+.loader img {
+  width: 100%;
+  height: 100%;
+}
+
+.btn-container {
+  color: #fff;
 }

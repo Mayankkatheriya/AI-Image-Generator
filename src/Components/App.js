@@ -1,52 +1,103 @@
-import React, {useState} from 'react'
-import Inputs from './Inputs';
-import Button from './Button'
-import Image from './Image';
-import Loader from './Loader'
+import React, { useState, useEffect } from "react";
+import Inputs from "./Inputs";
+import Button from "./Button";
+import Image from "./Image";
+import Loader from "./Loader";
+import { nanoid } from "nanoid";
+
+// ... (import statements remain unchanged)
 
 function App() {
-
   const [inputText, setInputText] = useState("");
-  const [src, setSrc]  = useState("");
-  const [isLoading, setLoading] = useState(true)
+  const [imageData, setImageData] = useState(() => {
+    const storedData = localStorage.getItem("imageData");
+    return storedData ? JSON.parse(storedData) : [];
+  });
+  const [isLoading, setLoading] = useState(false);
+  const [isClicked, setIsClicked] = useState(false);
+  const [error, setError] = useState(null);
 
+  //TODO useEfeect for setting data to local storage
+  useEffect(() => {
+    localStorage.setItem("imageData", JSON.stringify(imageData));
+  }, [imageData]);
+
+  //todo fetching data from API
   async function query(data) {
-    console.log(data);
     try {
       const response = await fetch(
         "https://api-inference.huggingface.co/models/prompthero/openjourney-v4",
         {
-          headers: { Authorization: "Bearer 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"},
+          headers: {
+            Authorization: "Bearer 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",
+          },
           method: "POST",
           body: JSON.stringify(data),
         }
       );
       const result = await response.blob();
       return result;
-    }
-    catch(error) {
-      console.log(`Error! ${error}`);
+    } catch (error) {
+      setError(`Error! ${error}`);
+      console.error(`Error! ${error}`);
     }
   }
-
+  
+  //todo click event for generating data from API
   const fetchData = () => {
-    setLoading(true)
-    query({"inputs": `${inputText}`}).then((response) => {
-      console.log(response);
-      const imageUrl = URL.createObjectURL(response);
-      console.log(imageUrl);
-      setSrc(imageUrl)
-      setLoading((prev) => !prev)
-    });
-  }
+    if (!inputText || inputText === "") {
+      alert("Please enter some text");
+      return;
+    }
+    setLoading(true);
+    setIsClicked(true);
+    setError(null);
 
+    query({ inputs: `${inputText}` }).then((response) => {
+      const imageUrl = URL.createObjectURL(response);
+      setImageData((prev) => [
+        ...prev,
+        {
+          id: nanoid(),
+          src: imageUrl,
+          alt: inputText,
+        },
+      ]);
+      setLoading(false);
+    });
+  };
+   //todo func fot delete item from array
+  const handleDelete = (id) => {
+    setImageData((imageData) => imageData.filter((item) => item.id !== id));
+  };
 
   return (
-    <>
-      <Inputs value = {inputText} onChange = {(e) => setInputText(e.target.value)}/>
-      <Button title = "Generate" onClick = {fetchData}/>
-      {isLoading ? <Loader/> : <Image src={src} alt={inputText}/>}
-    </>
+    <div className="app">
+      <h1>AI Image Generator</h1>
+      <div className="inputs">
+        <Inputs
+          value={inputText}
+          onChange={(e) => setInputText(e.target.value)}
+        />
+        <Button title="Generate" onClick={fetchData} className="generate-btn" />
+      </div>
+      <div className="image-container">
+        {error && <p className="error-message">{error}</p>}
+        {isLoading && isClicked ? (
+          <Loader />
+        ) : (
+          imageData.map((item) => (
+            <Image
+              key={item.id}
+              src={item.src}
+              alt={item.alt}
+              id={item.id}
+              onClick={() => handleDelete(item.id)}
+            />
+          ))
+        )}
+      </div>
+    </div>
   );
 }
 

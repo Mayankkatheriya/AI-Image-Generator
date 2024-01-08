@@ -16,7 +16,7 @@ function App() {
   const [isLoading, setLoading] = useState(false);
   const [isClicked, setIsClicked] = useState(false);
   const [error, setError] = useState(null);
-  const [src, setSrc] = useState("");
+  const [src, setSrc] = useState("https://img.freepik.com/free-photo/anthropomorphic-robot-indoors_23-2150405626.jpg");
 
   //TODO useEfeect for setting data to local storage
   useEffect(() => {

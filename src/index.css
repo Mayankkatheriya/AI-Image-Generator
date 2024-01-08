@@ -193,6 +193,14 @@ body {
   transform: scale(1.2);
 }
 
+.preview {
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 1rem;
+  cursor: zoom-in;
+  overflow: hidden;
+}
+
 .loader {
   width: 100%;
   max-width: 400px;

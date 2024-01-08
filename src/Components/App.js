@@ -16,6 +16,7 @@ function App() {
   const [isLoading, setLoading] = useState(false);
   const [isClicked, setIsClicked] = useState(false);
   const [error, setError] = useState(null);
+  const [src, setSrc] = useState("");
 
   //TODO useEfeect for setting data to local storage
   useEffect(() => {
@@ -42,7 +43,7 @@ function App() {
       console.error(`Error! ${error}`);
     }
   }
-  
+
   //todo click event for generating data from API
   const fetchData = () => {
     if (!inputText || inputText === "") {
@@ -54,7 +55,10 @@ function App() {
     setError(null);
 
     query({ inputs: `${inputText}` }).then((response) => {
+      console.log(response);
       const imageUrl = URL.createObjectURL(response);
+      setSrc(imageUrl);
+      console.log(imageUrl);
       setImageData((prev) => [
         {
           id: nanoid(),
@@ -66,7 +70,7 @@ function App() {
       setLoading(false);
     });
   };
-   //todo func fot delete item from array
+  //todo func fot delete item from array
   const handleDelete = (id) => {
     setImageData((imageData) => imageData.filter((item) => item.id !== id));
   };
@@ -81,11 +85,24 @@ function App() {
         />
         <Button title="Generate" onClick={fetchData} className="generate-btn" />
       </div>
+      {isLoading && isClicked ? (
+        <Loader />
+      ) : (
+        <a
+          href={src}
+          target="_blank"
+          rel="noopener noreferrer"
+          onClick={() => window.open(src)}
+          className="preview"
+          download
+        >
+          <img src={src} />
+        </a>
+      )}
+
       <div className="image-container">
         {error && <p className="error-message">{error}</p>}
-        {isLoading && isClicked ? (
-          <Loader />
-        ) : (
+        {imageData && (
           imageData.map((item) => (
             <Image
               key={item.id}
